@@ -64,4 +64,87 @@ module alu_module # (parameter N = 8)(
     wire [N-1:0] dec_result;
     dec_module #(N) dec1 (dec_borrow, dec_result, dec_overflow, a);
     
+    always @ (opcode, a, b) begin
+        case(opcode)
+            4'b0000: begin
+                result = add_sum;
+                carry = add_carry;
+                zero_flag = add_sum ? 0 : 1;
+                overflow_flag = add_overflow;
+                neg_flag = add_sum[N-1];
+            end
+            4'b0001: begin
+                result = sub_diff;
+                carry = ~sub_borrow;
+                zero_flag = sub_diff ? 0 : 1;
+                overflow_flag = sub_overflow;
+                neg_flag = sub_diff[N-1];
+            end
+            4'b0010: begin
+                result = and_result;
+                carry = 0;
+                zero_flag = and_result ? 0 : 1;
+                overflow_flag = 0;
+                neg_flag = and_result[N-1];
+            end
+            4'b0011: begin
+                result = or_result;
+                carry = 0;
+                zero_flag = or_result ? 0 : 1;
+                overflow_flag = 0;
+                neg_flag = or_result[N-1];
+            end
+            4'b0100: begin
+                result = xor_result;
+                carry = 0;
+                zero_flag = xor_result ? 0 : 1;
+                overflow_flag = 0;
+                neg_flag = xor_result[N-1];                
+            end
+            4'b0101: begin
+                result = not_result;
+                carry = 0;
+                zero_flag = not_result ? 0 : 1;
+                overflow_flag = 0;
+                neg_flag = not_result[N-1];
+            end
+            4'b0110: begin
+                result = shl_result;
+                carry = shl_carry;
+                zero_flag = shl_result ? 0 : 1;
+                overflow_flag = 0;
+                neg_flag = shl_result[N-1];
+            end
+            4'b0111: begin
+                result = shr_result;
+                carry = shr_carry;
+                zero_flag = shr_result ? 0 : 1;
+                overflow_flag = 0;
+                neg_flag = shr_result[N-1];
+            end
+            4'b1000: begin
+                result = inc_result;
+                carry = inc_carry;
+                zero_flag = inc_result ? 0 : 1;
+                overflow_flag = inc_overflow;
+                neg_flag = inc_result[N-1];
+            end
+            4'b1001: begin
+                result = dec_result;
+                carry = ~dec_borrow;
+                zero_flag = dec_result ? 0 : 1;
+                overflow_flag = dec_overflow;
+                neg_flag = dec_result[N-1];
+            end
+            default: begin
+                result = 0;
+                carry = 0;
+                zero_flag = 0;
+                overflow_flag = 0;
+                overflow_flag = 0;
+                neg_flag = 0;
+            end
+        endcase  
+    end
+    
 endmodule
