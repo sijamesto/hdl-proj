@@ -46,7 +46,7 @@ module alu_module # (parameter N = 8)(
     xor_module #(N) xor1(xor_result, a, b);
     
     wire [N-1:0] not_result;
-    not_module #(N) not1(not_result, a, b);
+    not_module #(N) not1(not_result, a);
     
     wire shl_carry;
     wire [N-1:0] shl_result;
