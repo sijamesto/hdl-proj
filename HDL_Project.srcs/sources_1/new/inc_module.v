@@ -21,11 +21,15 @@
 
 
 module inc_module # (parameter N = 8) (
-    x, a
+    c, x, a
     );
     input [N-1:0] a;
     output reg [N-1:0] x;
+    output reg c;
+    reg [N:0] sum;
     always @ (a) begin
-        x = a + 1;
+        sum = a + 1;
+        x = sum[N-1:0];
+        c = sum [N];
     end
 endmodule

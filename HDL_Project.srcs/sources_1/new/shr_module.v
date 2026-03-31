@@ -21,13 +21,16 @@
 
 
 module shr_module # (parameter N = 8) (
-    x, a
+    c, x, a
     );
     input [N-1:0] a;
     output reg [N-1:0] x;
+    output reg c;
+    
     
     always @ (a) begin
         x = a >> 1;
+        c = a[0];
     end
     
 endmodule
