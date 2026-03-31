@@ -21,15 +21,16 @@
 
 
 module dec_module # (parameter N = 8) (
-    b, x, a
+    b, x, o, a
     );
     input [N-1:0] a;
     output reg [N-1:0] x;
-    output reg b;
+    output reg b, o;
     reg[N:0] diff;
     always @ (a) begin
         diff = a - 1;
         x = diff[N-1:0];
         b = ~diff[N];
+        o = (a[N-1] == 1) && (x[N-1] == 0);
     end
 endmodule
