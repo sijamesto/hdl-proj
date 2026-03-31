@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 30.03.2026 20:46:50
+// Create Date: 31.03.2026 14:41:29
 // Design Name: 
-// Module Name: add_module
+// Module Name: alu_module
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,17 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-    module add_module #(parameter N = 8)(
-           c, s, x, y
-        );
-        input [N-1:0] x, y;
-        output reg [N-1:0] s;
-        output reg c;
-        reg [N:0] sum;
-        
-        always @(x, y) begin
-            sum = x + y;
-            s = sum[N-1:0];
-            c = sum[N];
-        end
-    endmodule
+module alu_module # (parameter N = 8)(
+    result, carry, zero_flag, neg_flag, a, b, opcode
+    );
+    input [N-1:0] a, b;
+    input [3:0] opcode;
+    output reg [N-1:0] result;
+    output reg carry, zero_flag, neg_flag;
+    
+    
+endmodule

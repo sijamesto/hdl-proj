@@ -26,8 +26,11 @@ module subtract_module #(parameter N = 8)(
     input [N-1:0] x, y;
     output reg [N-1:0] d;
     output reg b;
+    reg [N:0] diff;
     
     always @(x, y) begin
-        {d, b} = x - y;
+        diff = x - y;
+        d = diff[N-1:0];
+        b = ~diff[N];
     end
 endmodule
