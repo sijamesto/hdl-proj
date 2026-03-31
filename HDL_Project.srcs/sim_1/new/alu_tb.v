@@ -32,17 +32,12 @@ module alu_tb;
     initial begin
         a = 4'b1001;
         b = 4'b1011;
-        opcode = 0;
+        #5 opcode = 0;
     end
     always begin
-        #5 a = 4'b1000;
-        #5 b = 4'b1111;
-        #5 a = 4'b1110;
-        #5 b = 4'b0011;
-        #5 a = 4'b0001;
-        #5 b = 4'b1001;
+        
         if(opcode == 4'b1111) $finish;
-        opcode = opcode + 1;
+        #10 opcode = opcode + 1;
     end
     
 endmodule
