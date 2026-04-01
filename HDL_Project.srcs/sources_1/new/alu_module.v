@@ -28,13 +28,13 @@ module alu_module # (parameter N = 8)(
     output reg [N-1:0] result;
     output reg carry, zero_flag, neg_flag, overflow_flag;
     
-    wire add_carry, add_overflow;
+    wire add_carry;
     wire [N-1:0] add_sum;
-    add_module #(N) add1 (add_carry, add_sum, add_overflow, a, b);
+    add_module #(N) add1 (add_carry, add_sum, a, b);
     
-    wire sub_borrow, sub_overflow;
+    wire sub_borrow;
     wire [N-1:0] sub_diff;
-    subtract_module #(N) sub1 (sub_borrow, sub_diff, sub_overflow, a, b);
+    subtract_module #(N) sub1 (sub_borrow, sub_diff, a, b);
     
     wire [N-1:0] and_result;
     and_module #(N) and1(and_result, a, b);
@@ -56,13 +56,13 @@ module alu_module # (parameter N = 8)(
     wire [N-1:0] shr_result;
     shr_module #(N) shr1 (shr_carry, shr_result, a);
     
-    wire inc_carry, inc_overflow;
+    wire inc_carry;
     wire [N-1:0] inc_result;
-    inc_module #(N) inc1 (inc_carry, inc_result, inc_overflow, a);
+    inc_module #(N) inc1 (inc_carry, inc_result, a);
     
     wire dec_borrow, dec_overflow;
     wire [N-1:0] dec_result;
-    dec_module #(N) dec1 (dec_borrow, dec_result, dec_overflow, a);
+    dec_module #(N) dec1 (dec_borrow, dec_result, a);
     
     always @ (*) begin
         case(opcode)
@@ -70,14 +70,15 @@ module alu_module # (parameter N = 8)(
                 result = add_sum;
                 carry = add_carry;
                 zero_flag = add_sum ? 0 : 1;
-                overflow_flag = add_overflow;
+                overflow_flag = (a[N-1] == b[N-1]) && (add_sum[N-1] != a[N-1]);
                 neg_flag = add_sum[N-1];
             end
             4'b0001: begin
                 result = sub_diff;
                 carry = ~sub_borrow;
                 zero_flag = sub_diff ? 0 : 1;
-                overflow_flag = sub_overflow;
+                overflow_flag = (a[N-1] != b[N-1]) && (sub_diff[N-1] != a[N-1]);
+                
                 neg_flag = sub_diff[N-1];
             end
             4'b0010: begin
@@ -126,14 +127,14 @@ module alu_module # (parameter N = 8)(
                 result = inc_result;
                 carry = inc_carry;
                 zero_flag = inc_result ? 0 : 1;
-                overflow_flag = inc_overflow;
+                overflow_flag = (a[N-1] == 0) && (inc_result[N-1] == 1);
                 neg_flag = inc_result[N-1];
             end
             4'b1001: begin
                 result = dec_result;
                 carry = ~dec_borrow;
                 zero_flag = dec_result ? 0 : 1;
-                overflow_flag = dec_overflow;
+                overflow_flag = (a[N-1] == 1) && (dec_result[N-1] == 0);
                 neg_flag = dec_result[N-1];
             end
             default: begin
