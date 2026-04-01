@@ -30,14 +30,25 @@ module alu_tb;
     alu_module #(N) top_alu (result, carry, zero_flag, overflow_flag, neg_flag, a, b, opcode);
     
     initial begin
-        a = 4'b1001;
-        b = 4'b1011;
-        #5 opcode = 0;
+        a = 0;
+        b = 0;
+        opcode = 0;
+        
     end
     always begin
         
+        #10 a = 4'b1111;
+        b = 4'b0001;
+        #10 a = 4'b1001;
+        b = 4'b1101;
+        #10 a = 4'b0011;
+        b = 4'b0111;
+        #10 a = 4'b1010;
+        b = 4'b100;
+        #10
+        
         if(opcode == 4'b1111) $finish;
-        #10 opcode = opcode + 1;
+        opcode = opcode + 1;
     end
     
 endmodule

@@ -64,7 +64,7 @@ module alu_module # (parameter N = 8)(
     wire [N-1:0] dec_result;
     dec_module #(N) dec1 (dec_borrow, dec_result, dec_overflow, a);
     
-    always @ (opcode, a, b) begin
+    always @ (*) begin
         case(opcode)
             4'b0000: begin
                 result = add_sum;
