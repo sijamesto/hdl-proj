@@ -21,7 +21,7 @@
 
 
 module alu_tb;
-    parameter N = 4;
+    parameter N = 8;
     reg [3:0] opcode;
     
     reg [N-1:0] a, b;
@@ -37,14 +37,14 @@ module alu_tb;
     end
     always begin
         
-        #10 a = 4'b1111;
-        b = 4'b0001;
-        #10 a = 4'b1001;
-        b = 4'b1101;
-        #10 a = 4'b0011;
-        b = 4'b0111;
-        #10 a = 4'b1010;
-        b = 4'b100;
+        #10 a = 8'b11110000;
+        b = 8'b00011100;
+        #10 a = 8'b10010000;
+        b = 8'b11011111;
+        #10 a = 8'b00111100;
+        b = 8'b01111110;
+        #10 a = 8'b10101100;
+        b = 8'b10011110;
         #10
         
         if(opcode == 4'b1111) $finish;
